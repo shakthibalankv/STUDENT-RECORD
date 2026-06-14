@@ -8,56 +8,23 @@ void stud_rev(struct st **ptr)
         return;
     }
 
-    struct st *start = *ptr;
-    struct st *end   = *ptr;
+    struct st *copy = clone_list(*ptr);
 
-    while(end->next != 0)
-        end = end->next;
+    /* reverse by relinking the cloned list */
+    struct st *prev = 0;
+    struct st *cur  = copy;
+    struct st *next = 0;
 
-    
-    while(start != end && start->next != end)
+    while(cur != 0)
     {
-        /* swap roll */
-        int troll       = start->roll;
-        start->roll     = end->roll;
-        end->roll       = troll;
-
-        /* swap name */
-        char tname[100];
-        strcpy(tname,       start->name);
-        strcpy(start->name, end->name);
-        strcpy(end->name,   tname);
-
-        /* swap percentage */
-        float tpct        = start->percentage;
-        start->percentage = end->percentage;
-        end->percentage   = tpct;
-
-        start = start->next;
-
-        struct st *temp = *ptr;
-        while(temp->next != end)
-            temp = temp->next;
-        end = temp;
+        next      = cur->next;
+        cur->next = prev;
+        prev      = cur;
+        cur       = next;
     }
+    copy = prev;   /* new head */
 
-    /* swap middle two elements if even number of nodes */
-    if(start->next == end)
-    {
-        int troll       = start->roll;
-        start->roll     = end->roll;
-        end->roll       = troll;
-
-        char tname[100];
-        strcpy(tname,       start->name);
-        strcpy(start->name, end->name);
-        strcpy(end->name,   tname);
-
-        float tpct        = start->percentage;
-        start->percentage = end->percentage;
-        end->percentage   = tpct;
-    }
-
-    printf("List reversed.\n");
-    stud_show(*ptr);
+    printf("(Showing reversed view \n");
+    stud_show(copy);
+    free_list(copy);
 }
