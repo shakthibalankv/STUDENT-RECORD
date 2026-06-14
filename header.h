@@ -29,4 +29,6 @@ void stud_sort(struct st **);
 void sort_by_name(struct st **);
 void sort_by_percentage(struct st **);
 void stud_rev(struct st **);
+struct st *clone_list(struct st *);
+void free_list(struct st *);
 
